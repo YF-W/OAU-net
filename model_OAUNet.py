@@ -160,7 +160,7 @@ class UpSampling(nn.Module):
 
     def forward(self, x):
         # 使用邻近插值进行下采样
-        up = F.interpolate(x, scale_factor=2, mode="nearest")
+        up = F.interpolate(x, scale_factor=2, mode="bicbuc")
         up = nn.Conv2d(up.shape[1], up.shape[1] // 2, 1, 1)
 
         return up
@@ -231,9 +231,9 @@ class oaunet(nn.Module):
                 skip_connection = self.ups[idx+1](skip_connection)
             else:
 
-                kernel = [[0, -1, 0],
-                          [-1, 5, -1],
-                          [0, -1, 0]]  # outline
+                kernel = [[-1, -1, -1],
+                          [-1, 9, -1],
+                          [-1, -1, -1]]  # outline
 
                 kernel = torch.FloatTensor(kernel).expand(len(skip_connection[0]), len(skip_connection[0]), 3, 3)
                 # kernel = torch.FloatTensor(kernel).expand(len(skip_connection[1]), len(skip_connection[1]), 3, 3)
