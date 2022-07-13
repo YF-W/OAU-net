@@ -246,4 +246,3 @@ class oaunet(nn.Module):
             x = self.ups[idx+2](concat_skip)
 
         return self.final_conv(x)
-
